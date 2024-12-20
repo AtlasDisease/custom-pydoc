@@ -80,12 +80,13 @@ td.singlecolumn {
 }
 
 .author-decor {
-    background-color: #7799ee;
+    background-color: #d08770; /*#7799ee;*/
 }
 
 .credits-decor {
-    background-color: #7799ee;
+    background-color: #d08770; /*#7799ee;*/
 }
+
 
 .error-decor {
     background-color: #bf616a; /*#bb0000;*/
@@ -154,11 +155,4 @@ aside,
 
 .code {
     font-family: monospace;
-}
-
-#divSearch {
-	position: absolute;
-	z-index: 1;
-	width: 100%;
-	justify-items: center;
 }

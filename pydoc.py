@@ -772,12 +772,13 @@ class HTMLDoc(Doc):
             info.append(self.escape(str(object.__date__)))
         if info:
             head = head + ' (%s)' % ', '.join(info)
-        docloc = self.getdocloc(object)
-        if docloc is not None:
-            docloc = '<br><a href="%(docloc)s">Module Reference</a>' % locals()
-        else:
-            docloc = ''
-        result = self.heading(head, '<a href=".">index</a><br>' + filelink + docloc)
+##        docloc = self.getdocloc(object)
+##        if docloc is not None:
+##            docloc = '<br><a href="%(docloc)s">Module Reference</a>' % locals()
+##        else:
+##            docloc = ''
+##        result = self.heading(head, '<a href=".">index</a><br>' + filelink + docloc)
+        result = self.heading(head, filelink)
 
         modules = inspect.getmembers(object, inspect.ismodule)
 
@@ -2465,30 +2466,30 @@ def _url_handler(url, content_type="text/html"):
             css_link = (
                 '<link rel="stylesheet" type="text/css" href="%s">' %
                 css_path)
-            js = """document.addEventListener('keydown', (event) => {
-  if (event.key != '`')
-      return 0;
-  ctrl = document.getElementById('divSearch');
-  if (ctrl === null) {
-    return 0;
-  }
-
-  if (ctrl.style.display === 'none') {
-    ctrl.style.display = 'block';
-  } else {
-    ctrl.style.display = 'none';
-  }
-
-  return 1;
-});"""
+##            js = """document.addEventListener('keydown', (event) => {
+##  if (event.key != '`')
+##      return 0;
+##  ctrl = document.getElementById('divSearch');
+##  if (ctrl === null) {
+##    return 0;
+##  }
+##
+##  if (ctrl.style.display === 'none') {
+##    ctrl.style.display = 'block';
+##  } else {
+##    ctrl.style.display = 'none';
+##  }
+##
+##  return 1;
+##});"""
             return '''\
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Pydoc: %s</title>
-%s<script>%s</script></head><body>%s<div style="clear:both;padding-top:.5em;">%s</div>
-</body></html>''' % (title, css_link, js, html_navbar(), contents)
+%s</head><body>%s<div style="clear:both;padding-top:.5em;">%s</div>
+</body></html>''' % (title, css_link, html_navbar(), contents) #js, <script>%s</script>
 
 
     html = _HTMLDoc()
@@ -2496,19 +2497,15 @@ def _url_handler(url, content_type="text/html"):
     def html_navbar():
         version = html.escape("%s [%s, %s]" % (platform.python_version(),
                                                platform.python_build()[0],
-                                               platform.python_compiler()))
+                                               platform.python_compiler())) # style='display:none;'
         return """
             <div style='float:left'>
                 Python %s<br>%s
             </div>
-            <div id='divSearch' style='display:none;'>
+            <div id='divSearch' style='justify-items: center;'>
                 <div>
-                    <form action="get" style='display:inline;'>
-                      <input type=text name=key size=15>
-                      <input type=submit value="Get">
-                    </form>&nbsp;
                     <form action="search" style='display:inline;'>
-                      <input type=text name=key size=15>
+                      <input type=text name=key size=50>
                       <input type=submit value="Search">
                     </form>
                 </div>
@@ -2565,6 +2562,9 @@ def _url_handler(url, content_type="text/html"):
         # format page
         def bltinlink(name):
             return '<a href="%s.html">%s</a>' % (name, name)
+
+        if len(search_result) == 1: #If 1 result, go directly to it
+            return html_getobj(search_result[0][0])
 
         results = []
         heading = html.heading(
