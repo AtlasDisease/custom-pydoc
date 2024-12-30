@@ -2504,8 +2504,8 @@ def _url_handler(url, content_type="text/html"):
             </div>
             <div id='divSearch' style='justify-items: center;'>
                 <div>
-                    <form action="search" style='display:inline;'>
-                      <input type=text name=key size=50>
+                    <form action="search" autocomplete="off" style='display:inline;'>
+                      <input type=search name=key size=75 placeholder="Search">
                       <input type=submit value="Search">
                     </form>
                 </div>

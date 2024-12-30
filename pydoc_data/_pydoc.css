@@ -156,3 +156,13 @@ aside,
 .code {
     font-family: monospace;
 }
+
+form > input[type="search"] {
+    background-color: transparent;
+    border-color: white;
+    border-style: groove;
+    border-radius: 7px;
+    color: white;
+    outline: none;
+    padding: 3px 7px;
+}
