@@ -79,17 +79,17 @@ from traceback import format_exception_only
 
 # --------------------------------------------------------- common routines
 
-def pathdirs():
-    """Convert sys.path into a list of absolute, existing, unique paths."""
-    dirs = []
-    normdirs = []
-    for dir in sys.path:
-        dir = os.path.abspath(dir or '.')
-        normdir = os.path.normcase(dir)
-        if normdir not in normdirs and os.path.isdir(dir):
-            dirs.append(dir)
-            normdirs.append(normdir)
-    return dirs
+##def pathdirs():
+##    """Convert sys.path into a list of absolute, existing, unique paths."""
+##    dirs = []
+##    normdirs = {} #[]
+##    for dir in sys.path:
+##        dir = os.path.abspath(dir or '.')
+##        normdir = os.path.normcase(dir)
+##        if normdir not in normdirs and os.path.isdir(dir):
+##            dirs.append(dir)
+##            normdirs.add(normdir) #normdirs.append(normdir)
+##    return dirs
 
 def _findclass(func):
     cls = sys.modules.get(func.__module__)
@@ -1084,11 +1084,11 @@ class HTMLDoc(Doc):
 
         if skipdocs:
             return '<dl><dt>%s</dt></dl>\n' % decl
-        else:
-            doc = self.markup(
-                getdoc(object), self.preformat, funcs, classes, methods)
-            doc = doc and '<dd><span class="code">%s</span></dd>' % doc
-            return '<dl><dt>%s</dt>%s</dl>\n' % (decl, doc)
+        #else:
+        doc = self.markup(
+            getdoc(object), self.preformat, funcs, classes, methods)
+        doc = doc and '<dd><span class="code">%s</span></dd>' % doc
+        return '<dl><dt>%s</dt>%s</dl>\n' % (decl, doc)
 
     def docdata(self, object, name=None, mod=None, cl=None):
         """Produce html documentation for a data descriptor."""
@@ -1478,11 +1478,12 @@ location listed above.
                 else:
                     note = ' unbound %s method' % classname(imclass,mod)
 
+        asyncqualifier = ''
         if (inspect.iscoroutinefunction(object) or
                 inspect.isasyncgenfunction(object)):
             asyncqualifier = 'async '
-        else:
-            asyncqualifier = ''
+##        else:
+##            asyncqualifier = ''
 
         if name == realname:
             title = self.bold(realname)
@@ -2500,17 +2501,17 @@ def _url_handler(url, content_type="text/html"):
 ##                                               platform.python_compiler())) # style='display:none;'
         version = html.escape("%s [%s]" % (platform.python_version(),
                                                platform.python_compiler()))
-
+        #style='display:inline;'
         return """<nav>
             <div style='float:left'>
                 Python %s<br>%s
             </div>
-            <div>
-                <form action="search" autocomplete="off" style='display:inline;'>
+            <span>
+                <form action="search" autocomplete="off">
                     <input type=search name=key size=75 placeholder="Search">
                     <input type=submit value="Search">
                 </form>
-            </div>
+            </span>
             <div style='float:right'>
                 <div style='text-align:center'>
                   <a href="index.html">Module Index</a>
