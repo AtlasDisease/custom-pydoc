@@ -2495,20 +2495,21 @@ def _url_handler(url, content_type="text/html"):
     html = _HTMLDoc()
 
     def html_navbar():
-        version = html.escape("%s [%s, %s]" % (platform.python_version(),
-                                               platform.python_build()[0],
-                                               platform.python_compiler())) # style='display:none;'
-        return """
+##        version = html.escape("%s [%s, %s]" % (platform.python_version(),
+##                                               platform.python_build()[0],
+##                                               platform.python_compiler())) # style='display:none;'
+        version = html.escape("%s [%s]" % (platform.python_version(),
+                                               platform.python_compiler()))
+
+        return """<nav>
             <div style='float:left'>
                 Python %s<br>%s
             </div>
-            <div id='divSearch' style='justify-items: center;'>
-                <div>
-                    <form action="search" autocomplete="off" style='display:inline;'>
-                      <input type=search name=key size=75 placeholder="Search">
-                      <input type=submit value="Search">
-                    </form>
-                </div>
+            <div>
+                <form action="search" autocomplete="off" style='display:inline;'>
+                    <input type=search name=key size=75 placeholder="Search">
+                    <input type=submit value="Search">
+                </form>
             </div>
             <div style='float:right'>
                 <div style='text-align:center'>
@@ -2517,7 +2518,7 @@ def _url_handler(url, content_type="text/html"):
                   : <a href="keywords.html">Keywords</a>
                 </div>
             </div>
-            """ % (version, html.escape(platform.platform(terse=True)))
+        </nav>""" % (version, html.escape(platform.platform(terse=True)))
 
     def html_index():
         """Module Index page."""

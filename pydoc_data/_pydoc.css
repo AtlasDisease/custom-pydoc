@@ -166,3 +166,10 @@ form > input[type="search"] {
     outline: none;
     padding: 3px 7px;
 }
+
+nav {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
